@@ -67,7 +67,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         case "month":
             return "Month"
         case "year":
-            return "Year"
+            return "Y"
         case "custom":
             return Deadline.name
         default:
@@ -92,27 +92,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 //        }
         
         if (getCurrentMode() != "custom") {
-            return String(getCurrentModeValue()) + "%"
+            return String(String(format: "%.1f", getCurrentModeValue())) + "%"
         } else {
             return Deadline.stringValue
         }
         
     }
     
-    func getCurrentModeValue() -> Int {
-        var value = -1
+    func getCurrentModeValue() -> Float {
+        var value = Float(-1.0)
         switch getCurrentMode() {
         case "day":
-            value = getDayProgressPercentage()
+            value = Float(getDayProgressPercentage())
         case "week":
-            value = getWeekProgressPercentage()
+            value = Float(getWeekProgressPercentage())
         case "month":
             value = getMonthProgressPercentage()
         case "year":
-            value = getYearProgressPercentage()
+            value = Float(getYearProgressPercentage())
         case "custom",
              "deadline":
-            value = Deadline.percentage
+            value = Float(Deadline.percentage)
         default:
             value = -1
         }
@@ -276,7 +276,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
 
-    func getYearProgressPercentage() -> Int {
+    func getYearProgressPercentage() -> Float {
         let date = Date()
         let calendar = Calendar.current
         let year = calendar.component(Calendar.Component.year, from: date)
@@ -294,10 +294,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             percentage = 100 - percentage
         }
         
-        return Int(percentage)
+        return Float(percentage)
     }
     
-    func getMonthProgressPercentage() -> Int {
+    func getMonthProgressPercentage() -> Float {
         let date = Date()
         
         let start = date.startOfMonth().midnight.timeIntervalSince1970
@@ -314,10 +314,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             percentage = 100 - percentage
         }
         
-        return Int(percentage)
+        return Float(percentage)
     }
     
-    func getWeekProgressPercentage() -> Int {
+    func getWeekProgressPercentage() -> Float {
         let date = Date()
         var thisWeek = date.previous(.monday).midnight.timeIntervalSince1970
         
@@ -339,10 +339,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             percentage = 100 - percentage
         }
         
-        return Int(percentage)
+        return Float(percentage)
     }
     
-    func getDayProgressPercentage() -> Int {
+    func getDayProgressPercentage() -> Float {
         let today = Date().midnight.timeIntervalSince1970
         let tomorrow = Date.tomorrow.timeIntervalSince1970
         let now = Date().timeIntervalSince1970
@@ -357,7 +357,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             percentage = 100 - percentage
         }
         
-        return Int(percentage)
+        return Float(percentage)
     }
 }
 
